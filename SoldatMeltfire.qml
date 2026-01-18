@@ -169,24 +169,11 @@ Item {
         source: "./fonts/BoostedRegular.ttf"
     }
 
-    //Master Function/Timer for Peak values
-    function checkPeaks(){
-        if(root.rpm > root.peak_rpm){
-            root.peak_rpm = root.rpm
-        }
-        if(root.speed > root.peak_speed){
-            root.peak_speed = root.speed
-        }
-        if(root.watertemp > root.peak_water){
-            root.peak_water = root.watertemp
-        }
-        if(root.oiltemp > root.peak_oil){
-            root.peak_oil = root.oiltemp
-        }
-        if(root.speed > 10 && !root.car_movement){
-            root.car_movement = true
-        }
-    }
+    // Peak values
+    onRpmChanged: if (rpm > peak_rpm) peak_rpm = rpm
+    onSpeedChanged: if (speed > peak_speed) peak_speed = speed
+    onWatertempChanged: if (watertemp > peak_water) peak_water = watertemp
+    onOiltempChanged: if (oiltemp > peak_oil) peak_oil = oiltemp
    
     //Utilities  
     function easyFtemp(degreesC){
@@ -270,11 +257,7 @@ Item {
                 return './images/dash.png'
         }
     }
-    //Master Timer 
-    Timer{
-        interval: 2; running: true; repeat: true //Maybe we need to change interval time depending on potential lag, shouldn't be that much though
-        onTriggered: checkPeaks()
-    }
+    
 
     /* ########################################################################## */
     /* Main Layout items */
